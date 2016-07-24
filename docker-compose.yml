@@ -1,0 +1,60 @@
+# Builds all images, runs elasticsearch/logstash/kibana containers
+version: '2'
+services:
+  # Base images
+  base:
+    image: flux159/base:latest
+    build: ./base
+    command: ["true"]
+  java: 
+    image: flux159/java:latest
+    build: ./java
+    command: ["true"]
+    depends_on:
+      - base
+  nodejs:
+    image: flux159/nodejs:latest
+    build: ./nodejs
+    command: ["true"]
+    depends_on:
+      - base
+  # Elasticsearch
+  elasticsearchlogger:
+    image: flux159/elasticsearch:latest
+    build: ./elasticsearch
+    networks:
+      - bridgednetwork
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./tmp:/home/elasticsearch/data
+    depends_on:
+      - java
+  logstash:
+    image: flux159/logstash:latest
+    build: ./logstash
+    networks:
+      - bridgednetwork
+    ports:
+      - "6122:6122"
+    links:
+      - elasticsearchlogger
+    depends_on:
+      - java
+  kibana:
+    image: flux159/kibana:latest
+    build: ./kibana
+    networks:
+      - bridgednetwork
+    ports:
+      - "6123:6123"
+    links:
+      - elasticsearchlogger
+    depends_on:
+      - base
+
+# Network
+networks:
+  bridgednetwork:
+    driver: bridge      
