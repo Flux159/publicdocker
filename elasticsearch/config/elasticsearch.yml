@@ -1,11 +1,27 @@
+cluster:
+  name: ${CLUSTER_NAME}
+node:
+  name: ${APP_ID}-${PORT0}
 path:
   data: /home/elasticsearch/data/data
   logs: /home/elasticsearch/data/log
 network:
   host: 0.0.0.0
+  publish_host: ${HOST}
 discovery:
   zen:
-    minimum_master_nodes: 1
+    minimum_master_nodes: 2
+    ping:
+      unicast:
+        hosts: ${ESHOSTS}
+    ping_timeout: 30s
+    join_timeout: 300s
+http:
+  port: 9200
+transport:
+  tcp:
+    port: 9300
+  publish_port: ${PORT1}
 # Needed for docker for mac issue
 bootstrap:
   ignore_system_bootstrap_checks: "true"

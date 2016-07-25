@@ -1,15 +1,10 @@
 #!/bin/bash
 
-export ESHOSTS="$(curl -s \"$MARATHON_URL/v2/apps/$APP_ID/tasks\" | jq '.tasks[] | [.host + \":\" + (.ports[0]|tostring)] | join(\",\")')"
-/home/elasticsearch/elasticsearch/bin/elasticsearch && \
-  --discovery.zen.minimum_master_nodes=2 && \
-  --discovery.zen.ping.multicast.enabled=false && \
-  --discovery.zen.ping.unicast.hosts=$ESHOSTS && \
-  --discovery.zen.ping_timeout=30s && \
-  --discovery.zen.join_timeout=300s && \
-  --http.port=9200 && \
-  --transport.tcp.port=9300 && \
-  --transport.publish_port=$PORT1 && \
-  --cluster.name=$CLUSTER_NAME && \
-  --network.publish_host=$HOST && \
-  --node.name=\"${APP_ID}-${PORT0}
+# Retrieve $ESHOSTS from marathon api
+# Marathon provides $HOST, $PORT0, $PORT1 environment variables
+# Marathon json config (user) needs to supply $APP_ID, $CLUSTER_NAME, and $MARATHON_URL
+# See example in marathonexample.json 
+# marathonexample.json assumes 10.0.0.10 is a marathon master, 10.0.0.22, 10.0.0.23 are agents
+export ESHOSTS=$(curl -s "$MARATHON_URL/v2/apps/$APP_ID/tasks" | jq -r '.tasks[] | (.host + ":" + (.ports[1]|tostring))' | sed ':a;N;$!ba;s/\n/,/g')
+
+/home/elasticsearch/elasticsearch/bin/elasticsearch

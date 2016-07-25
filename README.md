@@ -9,3 +9,7 @@ Public docker images
 - flux159/elasticsearch: Elasticsearch 5.0
 - flux159/logstash: Logstash 5.0
 - flux159/kibana: Kibana 5.0
+
+# Marathon configs
+
+Elasticsearch has an example marathon config
