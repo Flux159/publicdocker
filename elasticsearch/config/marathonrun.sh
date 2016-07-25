@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ESHOSTS=$(curl -s \"$MARATHON_URL/v2/apps/$APP_ID/tasks\" | jq '.tasks[] | [.host + \":\" + (.ports[0]|tostring)] | join(\",\")')",
-/home/elasticsearch/elasticsearch/bin/elasticsearch" && \
+export ESHOSTS="$(curl -s \"$MARATHON_URL/v2/apps/$APP_ID/tasks\" | jq '.tasks[] | [.host + \":\" + (.ports[0]|tostring)] | join(\",\")')"
+/home/elasticsearch/elasticsearch/bin/elasticsearch && \
   --discovery.zen.minimum_master_nodes=2 && \
   --discovery.zen.ping.multicast.enabled=false && \
   --discovery.zen.ping.unicast.hosts=$ESHOSTS && \

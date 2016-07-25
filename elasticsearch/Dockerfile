@@ -31,6 +31,12 @@ WORKDIR /home/elasticsearch
 
 RUN mkdir -p /home/elasticsearch/data/{data,log,plugins,work}
 
+USER root
+
+RUN chmod +x /home/elasticsearch/marathonrun.sh && chown elasticsearch:elasticsearch /home/elasticsearch/marathonrun.sh
+
+USER elasticsearch
+
 # Define default command.
 CMD ["/bin/bash","-c","/home/elasticsearch/elasticsearch/bin/elasticsearch"]
 
