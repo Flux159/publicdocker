@@ -2,4 +2,5 @@ server:
   port: 6123
   host: "0.0.0.0"
 elasticsearch:
-  url: "http://elasticsearchlogger:9200"
+  url: "http://elasticsearch:9200"
+

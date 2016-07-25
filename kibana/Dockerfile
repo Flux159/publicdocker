@@ -21,6 +21,6 @@ ADD config/kibana.yml /home/kibana/kibana/config/kibana.yml
 
 WORKDIR /home/kibana
 
-CMD ["/bin/bash","-c","./kibana/bin/kibana -c /home/kibana/kibana/config/kibana.yml"]
+CMD ["/bin/bash","-c","./kibana/bin/kibana -H 0.0.0.0 -p 6123 -e $ESURL"]
 
 EXPOSE 6123
