@@ -25,6 +25,7 @@ RUN \
 # Mount elasticsearch.yml config
 # TODO: Make ports configurable by runtime commandline args
 ADD config/elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
+ADD config/marathonrun.sh /home/elasticsearch/marathonrun.sh
 
 WORKDIR /home/elasticsearch
 
