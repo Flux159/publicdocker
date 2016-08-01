@@ -3,8 +3,8 @@ cluster:
 node:
   name: ${APP_ID}-${PORT0}
 path:
-  data: /home/elasticsearch/data/data
-  logs: /home/elasticsearch/data/log
+  data: ${DATADIR}/data
+  logs: ${DATADIR}/log
 network:
   host: 0.0.0.0
   publish_host: ${HOST}
